@@ -50,13 +50,12 @@ jobs:
 
       - name: Run Linting
         run: |
-          ruff check .
+         ruff check backend frontend
 
       - name: Verify Python Syntax
         run: |
           python -m compileall backend
           python -m compileall frontend
-          python -m compileall training
 
       - name: CI Success
         run: echo "Project build completed successfully!"

@@ -81,10 +81,11 @@ if uploaded_file:
 
             try:
 
+                API_URL = "https://fashionmnist-classifier.onrender.com/predict"
                 response = requests.post(
-                    "http://127.0.0.1:8000/predict",
-                    files=files,
-                    timeout=30
+                API_URL,
+                files=files,
+                timeout=60
                 )
 
                 if response.status_code == 200:

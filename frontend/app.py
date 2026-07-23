@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 from PIL import Image
+import os
 
 st.set_page_config(
     page_title="FashionMNIST Classifier",
@@ -81,7 +82,7 @@ if uploaded_file:
 
             try:
 
-                API_URL = "https://fashionmnist-classifier.onrender.com/predict"
+                API_URL = os.environ.get("BACKEND_URL", "https://fashionmnist-classifier.onrender.com/predict")
                 response = requests.post(
                 API_URL,
                 files=files,

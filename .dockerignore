@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+.git/
+.github/
+*.log
+.devcontainer/
+training/
+images/
+README.md

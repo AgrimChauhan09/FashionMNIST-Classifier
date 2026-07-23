@@ -4,6 +4,14 @@ import tensorflow as tf
 import numpy as np
 from PIL import Image, UnidentifiedImageError
 import io
+import logging
+
+# Logging setup
+logging.basicConfig(
+    filename="app.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 app = FastAPI()
 
@@ -18,6 +26,7 @@ app.add_middleware(
 
 # Load model once
 model = tf.keras.models.load_model("../models/fashion_mnist_model.keras")
+logging.info("Model loaded successfully at startup")
 
 class_names = [
     "T-shirt/top",
@@ -41,15 +50,13 @@ def home():
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
 
-    print("=" * 60)
-    print("Filename :", file.filename)
-    print("Content-Type :", file.content_type)
+    logging.info(f"Request received: filename={file.filename}, content_type={file.content_type}")
 
     image_bytes = await file.read()
-
-    print("Image Size :", len(image_bytes), "bytes")
+    logging.info(f"Image size: {len(image_bytes)} bytes")
 
     if len(image_bytes) == 0:
+        logging.error("Uploaded file is empty")
         raise HTTPException(status_code=400, detail="Uploaded file is empty.")
 
     try:
@@ -57,12 +64,14 @@ async def predict(file: UploadFile = File(...)):
         image = image.convert("L")
 
     except UnidentifiedImageError:
+        logging.error(f"Invalid image file uploaded: {file.filename}")
         raise HTTPException(
             status_code=400,
             detail="Invalid image file. Upload PNG/JPG image."
         )
 
     except Exception as e:
+        logging.error(f"Unexpected error while opening image: {str(e)}")
         raise HTTPException(
             status_code=500,
             detail=str(e)
@@ -78,8 +87,9 @@ async def predict(file: UploadFile = File(...)):
     prediction = model.predict(image_array, verbose=0)
 
     predicted_class = int(np.argmax(prediction))
-
     confidence = float(np.max(prediction))
+
+    logging.info(f"Prediction: {class_names[predicted_class]} | Confidence: {confidence*100:.2f}%")
 
     return {
         "prediction": class_names[predicted_class],

@@ -251,12 +251,29 @@ http://localhost:8501
 
 ---
 
-# 📦 Deployment
-Frontend:
-- Streamlit (https://fashionmnist-classifier-by-agrim.streamlit.app/)
+## 📦 Deployment
 
-Backend:
-- Render
+### Frontend
+- **Platform:** Streamlit Cloud
+- **URL:** [https://fashionmnist-classifier-by-agrim.streamlit.app/](https://fashionmnist-classifier-by-agrim.streamlit.app/)
+
+### Backend
+- **Platform:** Docker Container
+- **Hosting:** Deployed on Render
+- Exposes a FastAPI REST API for inference
+
+---
+
+## 🚢 Containerization
+
+The backend application is fully containerized using Docker.
+- Uses **Python 3.12 Slim** as the base image
+- Installs dependencies from `backend/requirements.txt`
+- Copies the trained TensorFlow model into the container
+- Starts the FastAPI application using **Uvicorn**
+- Is deployed on **Render**, where the Docker image is automatically built from the GitHub repository on every commit
+
+---
 
 
 # 👨‍💻 Author

@@ -61,8 +61,6 @@ FashionMNIST-Classifier/
 │
 ├── Dockerfile               # Backend Docker image
 ├── docker-compose.yml       # Backend + Frontend
-├── start-docker.ps1         # Easy: Docker se poora app start
-├── start-local.ps1          # Easy: bina Docker locally start
 ├── .dockerignore
 └── README.md
 ```

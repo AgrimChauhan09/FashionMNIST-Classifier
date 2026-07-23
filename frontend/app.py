@@ -82,7 +82,7 @@ if uploaded_file:
 
             try:
 
-                API_URL = os.environ.get("BACKEND_URL", "https://fashionmnist-classifier.onrender.com/predict")
+                API_URL = os.environ.get("BACKEND_URL", "https://fashionmnist-classifier-1.onrender.com/predict")
                 response = requests.post(
                 API_URL,
                 files=files,
